@@ -22,17 +22,44 @@ class App extends Component {
     });
   };
 
+  addFriend = friend => {
+    axios
+      .post("http://localhost:5000/friends", friend)
+      .then(res => {
+        this.setState({ friendsList: [...this.state.friendsList, friend] });
+      })
+      .catch(err => {
+        throw new Error("Error adding friends", err);
+      });
+  };
+
   updateFriend = id => {
     const oldFriend = this.state.friendsList.find(friend => {
       return friend.id === id;
     });
-    this.updateOldFriend(oldFriend);
+    this.setState({ oldFriend });
   };
 
-  updateOldFriend = oldFriend => {
-    console.log(oldFriend);
-    this.setState({ oldFriend });
-    return oldFriend;
+  updateOldFriend = (updatedInfo, e) => {
+    e.preventDefault();
+    const updatedFriend = axios
+      .put(`http://localhost:5000/friends/${updatedInfo.id}`, updatedInfo)
+      .then(res => {
+        this.setState({ friendsList: res.data });
+      })
+      .catch(err => console.log("err", err));
+    return updatedFriend;
+  };
+
+  deleteFriend = id => {
+    const oldGroup = this.state.friendsList.slice();
+    const oldFriend = oldGroup.find(friend => {
+      return friend.id === id;
+    });
+    const newGroup = oldGroup.filter(friend => {
+      return friend.id !== oldFriend.id;
+    });
+    this.setState({ friendsList: newGroup });
   };
 
   render() {
@@ -45,8 +72,13 @@ class App extends Component {
           <FriendsList
             friends={this.state.friendsList}
             update={this.updateFriend}
+            delete={this.deleteFriend}
           />
-          <AddFriend oldFriend={this.state.oldFriend} />
+          <AddFriend
+            oldFriend={this.state.oldFriend}
+            addFriend={this.addFriend}
+            updateOldFriend={this.updateOldFriend}
+          />
         </div>
       </div>
     );

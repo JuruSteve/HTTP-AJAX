@@ -9,18 +9,21 @@ export default class AddFriend extends Component {
       age: "",
       name: "",
       email: "",
-      id: ""
+      id: "",
+      updateButton: false
     };
   }
 
   componentDidUpdate(prevProps, prevState) {
     if (this.props.oldFriend !== prevProps.oldFriend) {
-      this.setState({ ...this.props.oldFriend });
+      this.setState({
+        ...this.props.oldFriend,
+        updateButton: !this.state.updateButton
+      });
     }
   }
 
   handleChange = name => e => {
-    console.log(e.target.value);
     this.setState({ [name]: e.target.value });
   };
   submitFriend = e => {
@@ -31,35 +34,38 @@ export default class AddFriend extends Component {
       ...this.state,
       id: id + 1
     };
-    axios
-      .post("http://localhost:5000/friends", newFriend)
-      .then(res => console.log(res));
-    // console.log(this.state, newFriend);
+    this.props.addFriend(newFriend);
+    this.clearState();
   };
-  updateFriend = (id, e) => {
-    e.preventDefault();
-    const updatedFriend = axios
-      .post(`http://localhost:5000/friends/${id}`, this.state)
-      .then(res => console.log(res))
-      .catch(err => console.log("err", err));
-    // console.log("updateFriend", updatedFriend);
-    console.log("updateFriend", id);
-  };
+  updateFriend = (id, e) => {};
   inputValue = opt => {
-    console.log(opt, this.state[opt], "o");
     let val = this.state.opt ? this.state.opt : this.props.oldFriend.opt;
     return val;
+  };
+  clearState = () => {
+    return this.setState({
+      name: "",
+      email: "",
+      id: "",
+      age: "",
+      updateButton: !this.state.updateButton
+    });
   };
   render() {
     return (
       <div className="add-friend">
         <h2>Update friend's Info</h2>
         <form
-          onSubmit={
-            this.props.oldFriend === this.state
-              ? this.submitFriend
-              : e => this.updateFriend(this.state.id, e)
-          }
+          onSubmit={e => {
+            if (
+              this.props.oldFriend &&
+              this.props.oldFriend.id === this.state.id
+            ) {
+              this.props.updateOldFriend(this.state, e, this.clearState());
+            } else {
+              this.submitFriend(e);
+            }
+          }}
         >
           <label htmlFor="name">Name:</label>
           <input
@@ -85,7 +91,8 @@ export default class AddFriend extends Component {
             value={this.state.age}
           />
           <button type="submit">
-            {this.props.oldFriend !== null ? "Update" : "Submit"}
+            {// this.props.oldFriend === this.state &&
+            this.state.updateButton ? "Update" : "Submit"}
           </button>
         </form>
       </div>

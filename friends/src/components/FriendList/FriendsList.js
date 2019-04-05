@@ -10,7 +10,14 @@ const FriendsList = props => {
       </div>
       <div className="list">
         {props.friends.map((friend, i) => {
-          return <Friend key={i} update={props.update} friend={friend} />;
+          return (
+            <Friend
+              key={i}
+              update={props.update}
+              deleteFriend={props.delete}
+              friend={friend}
+            />
+          );
         })}
       </div>
     </div>

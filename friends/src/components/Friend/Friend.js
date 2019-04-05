@@ -1,10 +1,18 @@
 import React from "react";
 import "./Friend.css";
-const Friend = ({ friend, update }) => {
+const Friend = ({ deleteFriend, friend, update }) => {
   return (
     <div className="friend-container">
       <div className="friend-details">
-        <p className="delete">X</p>
+        <p
+          className="delete"
+          onClick={e => {
+            e.preventDefault();
+            deleteFriend(friend.id);
+          }}
+        >
+          X
+        </p>
         <h3>{friend.name}</h3>
         <p>{friend.email}</p>
         <p>{friend.age}</p>
