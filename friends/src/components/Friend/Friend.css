@@ -1,0 +1,32 @@
+.friend-container {
+  width: 45%;
+}
+.friend-details {
+  border: 1px solid;
+  margin: 5px 10px;
+  border-radius: 10px;
+  background: #1f393f82;
+}
+.friend-details:hover > .delete {
+  visibility: visible;
+}
+.friend-details > .delete {
+  margin: 0;
+  text-align: right;
+  padding: 0 5px;
+  background: crimson;
+  visibility: hidden;
+  width: fit-content;
+  margin-left: auto;
+  margin-top: 5px;
+  margin-right: 5px;
+  padding: 5px;
+}
+.update > button {
+  font-size: .9rem;
+  padding: 10px;
+  border-radius: 10px;
+  margin: 20px;
+  background: #1f3940;
+  color: white;
+}

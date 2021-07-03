@@ -1,0 +1,29 @@
+.add-friend {
+  width: 35%;
+  color: white;
+}
+form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.4rem;
+  background: #27423e;
+  height: 400px;
+  border-radius: 10px;
+  border: 0.5px solid;
+}
+
+form > input {
+  width: 60%;
+  font-size: 1.4rem;
+  margin: 10px;
+}
+form > button {
+  font-size: 1.4rem;
+  padding: 10px;
+  border-radius: 10px;
+  margin: 20px;
+  background: #1f3940;
+  color: white;
+}
